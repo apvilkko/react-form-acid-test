@@ -1,0 +1,32 @@
+.labeled {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+input[type='text'],
+input[type='tel'] {
+  max-width: 30em;
+}
+
+.labeled > * {
+  margin-right: 1rem;
+}
+
+label {
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.validation-error {
+  color: red;
+}
+
+.dropdown {
+  border: 1px solid gray;
+  padding: 1rem;
+  margin: 0;
+  position: absolute;
+  bottom: 0px;
+  background: white;
+}
