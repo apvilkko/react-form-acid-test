@@ -1,8 +1,11 @@
+import path from 'ramda/src/path'
 import React, { useEffect } from 'react'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
+import { getPathFromKey } from '../shared/utils'
 
-const simplifyError = (obj?: Record<string, string>) =>
-  obj && obj.message ? obj.message : obj
+const simplifyError = (obj?: Record<string, unknown>) => {
+  return obj && obj.message ? obj.message : obj
+}
 
 const getInputName = (name: string, lang?: string, objForm = true) =>
   `${name}${objForm ? '.' : '-'}${lang}`
@@ -49,14 +52,14 @@ export function Wrapper<P>({
     if (isMultiLanguage) {
       languages?.forEach((language: string) => {
         const inputName = getInputName(name, language)
-        console.log('register', inputName)
+        //console.log('register', inputName)
         register({ name: inputName, type: 'custom' })
       })
 
       return () => {
         languages?.forEach((language: string) => {
           const inputName = getInputName(name, language)
-          console.log('unregister', inputName)
+          //console.log('unregister', inputName)
           unregister(inputName)
         })
       }
@@ -65,17 +68,33 @@ export function Wrapper<P>({
 
   const EMPTY_ERROR = {}
 
-  const currentError = errors[name]
+  const currentError: Record<string, unknown> | undefined = path(
+    getPathFromKey(name),
+    errors
+  )
   const error = isMultiLanguage
     ? currentError
       ? Object.keys(currentError).reduce((acc, curr) => {
-          acc[curr] = simplifyError(currentError[curr])
+          acc[curr] = simplifyError(
+            currentError[curr] as Record<string, unknown>
+          )
           return acc
         }, {} as Record<string, unknown>)
       : EMPTY_ERROR
     : simplifyError(currentError)
 
-  console.log('error', name, error, errors)
+  console.log(
+    'Wrapper',
+    name,
+    'error',
+    error,
+    'errors',
+    errors,
+    'currentError',
+    currentError,
+    'values',
+    inputValues
+  )
 
   return (
     <Controller
@@ -109,6 +128,14 @@ export function Wrapper<P>({
                 }, 20)
               }
 
+              console.log(
+                'Wrapper multilang setValue',
+                name,
+                lang,
+                getInputName(name, lang),
+                value
+              )
+
               setValue(getInputName(name, lang), value, {
                 shouldValidate: true,
                 shouldDirty: true,
@@ -129,7 +156,7 @@ export function Wrapper<P>({
                   shouldDirty: true,
                 })
               },
-              value: inputValues,
+              value: input.value,
             })
           }
         }

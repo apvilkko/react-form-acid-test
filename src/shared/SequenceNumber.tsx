@@ -1,12 +1,10 @@
 import React from 'react'
 import { Labeled } from './Labeled'
 import { Error } from './Error'
-import { InputType } from './types'
+import type { CommonInputProps } from './types'
 
-type SequenceNumberProps = {
-  input: InputType
+type SequenceNumberProps = CommonInputProps & {
   error?: string
-  label: string
   required?: boolean
 }
 
@@ -17,9 +15,11 @@ export const SequenceNumber: React.FC<SequenceNumberProps> = ({
   required,
 }) => {
   return (
-    <Labeled label={label} id={input.id} required={required}>
-      <input type="text" {...input} />
-      {error && <Error>{error}</Error>}
-    </Labeled>
+    <div className="input-wrapper">
+      <Labeled label={label} id={input.id} required={required}>
+        <input type="text" {...input} />
+        {error && <Error>{error}</Error>}
+      </Labeled>
+    </div>
   )
 }

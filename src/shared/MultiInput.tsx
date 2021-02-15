@@ -20,26 +20,28 @@ export const MultiInput: React.FC<MultiInputProps> = ({
   handleChange,
 }) => {
   return (
-    <Labeled id={`${name}-${languages[0]}`} label={label}>
-      {languages.map((lang) => {
-        const id = `${name}-${lang}`
-        const value = (values || {})[lang] || ''
-        const inputProps = {
-          id,
-          name: id,
-          value,
-          onChange: (evt: React.ChangeEvent<HTMLInputElement>) => {
-            handleChange(lang, evt.target.value)
-          },
-        }
-        return (
-          <div key={lang}>
-            <span>{lang}</span>
-            <input {...inputProps} />
-          </div>
-        )
-      })}
-      {(errors || {})[languages[0]] && <Error>{errors[languages[0]]}</Error>}
-    </Labeled>
+    <div className="input-wrapper">
+      <Labeled id={`${name}-${languages[0]}`} label={label}>
+        {languages.map((lang) => {
+          const id = `${name}-${lang}`
+          const value = (values || {})[lang] || ''
+          const inputProps = {
+            id,
+            name: id,
+            value,
+            onChange: (evt: React.ChangeEvent<HTMLInputElement>) => {
+              handleChange(lang, evt.target.value)
+            },
+          }
+          return (
+            <div key={lang}>
+              <span>{lang}</span>
+              <input type="text" {...inputProps} />
+            </div>
+          )
+        })}
+        {(errors || {})[languages[0]] && <Error>{errors[languages[0]]}</Error>}
+      </Labeled>
+    </div>
   )
 }
