@@ -10,7 +10,7 @@ export const TableRow: React.FC<TableRowProps> = ({
 }) => {
   return (
     <tr>
-      {children.map((child, i) => (
+      {children.map((child: React.ReactElement, i: number) => (
         <td key={i}>{child}</td>
       ))}
       <td>

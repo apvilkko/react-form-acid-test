@@ -60,7 +60,9 @@ const validateMultiLang = (
   return err
 }
 
-export const validate = ({ languages }: ValidateConfig) => (obj: FormShape) => {
+export const validate = ({ languages }: ValidateConfig) => (
+  obj: FormShape
+): Record<string, unknown> => {
   let errors: Record<string, unknown> = {}
 
   if (obj) {

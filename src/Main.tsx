@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import { FormComponent as RHFFormComponent } from './react-hook-form/FormComponent'
 import { FormComponent as RFFFormComponent } from './react-final-form/FormComponent'
 import { FormComponent as FormikFormComponent } from './formik/FormComponent'
-import { Labeled } from './shared/Labeled'
+import { Labeled } from './shared/components/Labeled'
 
 const libs = ['react-hook-form', 'react-final-form', 'formik'].sort()
 
-export const Main = () => {
+export const Main: React.FC<Record<string, never>> = () => {
   const [languages, setLanguages] = useState<Array<string>>(['en', 'es', 'fi'])
   return (
     <>

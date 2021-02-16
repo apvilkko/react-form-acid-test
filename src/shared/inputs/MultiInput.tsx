@@ -1,6 +1,6 @@
 import React from 'react'
-import { Labeled } from './Labeled'
-import { Error } from './Error'
+import { Labeled } from '../components/Labeled'
+import { Error } from '../components/Error'
 
 export interface MultiInputChangeFn {
   (language: string, value: string): void

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Labeled } from './Labeled'
-import { Error } from './Error'
-import type { CommonInputProps } from './types'
+import { Labeled } from '../components/Labeled'
+import { Error } from '../components/Error'
+import type { CommonInputProps } from '../types'
 
 type SequenceNumberProps = CommonInputProps & {
   error?: string

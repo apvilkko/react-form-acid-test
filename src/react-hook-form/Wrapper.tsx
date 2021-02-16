@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import path from 'ramda/src/path'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
-import { MultiInputChangeFn } from '../shared/MultiInput'
+import { MultiInputChangeFn } from '../shared/inputs/MultiInput'
 import { getInputName, getPathFromKey } from '../shared/utils'
 import type { WrapperProps } from '../shared/types'
 

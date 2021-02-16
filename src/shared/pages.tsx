@@ -1,18 +1,24 @@
 import React from 'react'
 import { createNew, fields } from './fields'
-import { MultiInput } from './MultiInput'
+import { MultiInput } from './inputs/MultiInput'
 import { tagOptions, tayneOptions } from './options'
-import { ReactSelectMultiSelect } from './ReactSelectMultiSelect'
-import { SequenceNumber } from './SequenceNumber'
-import { TableRow } from './TableRow'
-import { TagSelect } from './TagSelect'
-import type { InnerComponentSpec } from './types'
+import { ReactSelectMultiSelect } from './inputs/ReactSelectMultiSelect'
+import { SequenceNumber } from './inputs/SequenceNumber'
+import { TableRow } from './components/TableRow'
+import { TagSelect } from './inputs/TagSelect'
+import type { InnerComponentSpec, PagesType } from './types'
 
-export const getPages = (languages, Wrapper, FieldArrayWrapper) => {
+export function getPages<P, R>(
+  languages: Array<string>,
+  Wrapper: React.ComponentType<P>,
+  FieldArrayWrapper: React.ComponentType<R>
+): PagesType {
   const tableRowComponents: Array<InnerComponentSpec> = [
     {
       component: SequenceNumber,
-      props: { label: 'Seq number', required: true },
+      props: { label: 'Seq number', required: true } as React.ComponentProps<
+        typeof SequenceNumber
+      >,
       name: fields.NUMBER,
     },
     {

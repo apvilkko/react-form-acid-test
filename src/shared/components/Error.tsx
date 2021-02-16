@@ -10,7 +10,7 @@ type ErrorProps = {
   children: string
 }
 
-export const Error = ({ children }: ErrorProps) => {
+export const Error: React.FC<ErrorProps> = ({ children }) => {
   return (
     <div role="alert" className="validation-error">
       {translated[children] || children}

@@ -27,7 +27,7 @@ export type FieldArrayComponentProps = {
 }
 
 export type InnerComponentSpec = {
-  component: React.ComponentType
+  component: React.ComponentType<Record<string, unknown>>
   props: Record<string, unknown>
   name: string
 }
@@ -44,6 +44,8 @@ export type WrapperProps<P> = {
   name: string
   component: React.ComponentType<P>
   languages?: Array<string>
-  handleChange?: any
+  handleChange?: unknown
   valueType?: string
 } & Partial<P>
+
+export type PagesType = Array<() => React.ReactElement>

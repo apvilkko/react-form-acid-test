@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Labeled } from './Labeled'
-import type { CommonInputProps, Tag as TagType } from './types'
-import { usePrevious } from './usePrevious'
+import { Labeled } from '../components/Labeled'
+import type { CommonInputProps, Tag as TagType } from '../types'
+import { usePrevious } from '../usePrevious'
 
 type TagSelectProps = CommonInputProps & {
   value: Array<TagType>

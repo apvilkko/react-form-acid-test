@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormState } from 'react-final-form'
-import { Pre } from '../shared/Pre'
+import { Pre } from '../shared/components/Pre'
 
 export const DebugFormValues: React.FC<Record<string, never>> = () => {
   const { values } = useFormState({ subscription: { values: true } })

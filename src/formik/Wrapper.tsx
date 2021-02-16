@@ -1,7 +1,7 @@
 import React from 'react'
 import pathOr from 'ramda/src/pathOr'
 import { Field, useField, useFormikContext } from 'formik'
-import { MultiInputChangeFn } from '../shared/MultiInput'
+import { MultiInputChangeFn } from '../shared/inputs/MultiInput'
 import { getInputName, getPathFromKey, setLanguages } from '../shared/utils'
 import { WrapperProps } from '../shared/types'
 

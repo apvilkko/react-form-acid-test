@@ -3,7 +3,7 @@ import pathOr from 'ramda/src/pathOr'
 import { Field, useField, useForm, useFormState } from 'react-final-form'
 import type { WrapperProps } from '../shared/types'
 import { getInputName, getPathFromKey, setLanguages } from '../shared/utils'
-import { MultiInputChangeFn } from '../shared/MultiInput'
+import { MultiInputChangeFn } from '../shared/inputs/MultiInput'
 
 const RegisterField: React.FC<{ name: string }> = ({ name }) => {
   useField(name)

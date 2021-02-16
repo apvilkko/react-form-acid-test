@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { Table } from '../shared/Table'
+import { Table } from '../shared/components/Table'
 import {
   FieldArrayComponentProps,
   FieldArrayWrapperProps,
@@ -49,6 +49,7 @@ export function FieldArrayWrapper<P>({
             handleRemove: () => remove(index),
           } as unknown) as P & FieldArrayComponentProps
           if (!item.id) {
+            // right after remove there seems to be a render with the removed item (without id)
             return null
           }
           return (

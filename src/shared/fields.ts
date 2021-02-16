@@ -9,15 +9,10 @@ export const fields = {
   TABLE: 'table',
 }
 
-export const defaultValues = {
-  [fields.NUMBER]: '',
-  [fields.NAME]: '',
-  [fields.TAGS]: [],
-  [fields.TAYNES]: [],
-  [fields.TABLE]: [],
-}
-
-export const createNew = (languages: Array<string>) => () => ({
+export const createNew = (languages: Array<string>) => (): Record<
+  string,
+  unknown
+> => ({
   id: Math.round(Math.random() * 100000 + 1),
   number: '',
   name: setLanguages(languages),
@@ -29,7 +24,11 @@ const createItem = (languages: Array<string>) => (number: number) => ({
   name: setLanguages(languages, (lang) => `table item ${number} name ${lang}`),
 })
 
-export const initialValues = (languages: Array<string>) => ({
+// emulate situation where backend values are different from ui values
+// FormShape is not strictly typed currently
+type BackendShape = FormShape
+
+export const initialValues = (languages: Array<string>): BackendShape => ({
   [fields.NUMBER]: '34343434',
   [fields.NAME]: languages.reduce((acc, lang) => {
     acc[lang] = `Beta ${lang}`
@@ -53,10 +52,7 @@ type RefData = {
   [x: string]: Array<CommonOptionType>
 }
 
-const toFormFormat = (
-  obj: Record<string, unknown>,
-  refData: RefData
-): FormShape => {
+const toFormFormat = (obj: BackendShape, refData: RefData): FormShape => {
   return {
     ...(obj || {}),
     [fields.TAGS]: getOptions(obj, fields.TAGS, refData.tagOptions),
@@ -67,6 +63,6 @@ const toFormFormat = (
 export const getInitialValues = (
   languages: Array<string>,
   refData: RefData
-) => {
+): FormShape => {
   return toFormFormat(initialValues(languages), refData)
 }

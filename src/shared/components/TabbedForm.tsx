@@ -7,12 +7,21 @@ import {
   useRouteMatch,
 } from 'react-router'
 import { Navigation } from './Navigation'
+import type { PagesType } from '../types'
 
 const preventDefault = (evt: React.SyntheticEvent) => {
   evt.preventDefault()
 }
 
-export const TabbedForm = ({ pages, formVariant }) => {
+type TabbedFormProps = {
+  pages: PagesType
+  formVariant: string
+}
+
+export const TabbedForm: React.FC<TabbedFormProps> = ({
+  pages,
+  formVariant,
+}) => {
   const { url } = useRouteMatch()
   const location = useLocation()
   const pageId = Number(location.pathname.split('/').pop())

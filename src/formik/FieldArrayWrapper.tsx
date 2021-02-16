@@ -6,7 +6,7 @@ import type {
   FormShape,
   InnerComponentSpec,
 } from '../shared/types'
-import { Table } from '../shared/Table'
+import { Table } from '../shared/components/Table'
 import { Wrapper } from './Wrapper'
 
 const NullRenderer = () => null

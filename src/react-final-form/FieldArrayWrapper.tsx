@@ -1,6 +1,6 @@
 import React from 'react'
 import { FieldArray } from 'react-final-form-arrays'
-import { Table } from '../shared/Table'
+import { Table } from '../shared/components/Table'
 import type {
   FieldArrayComponentProps,
   FieldArrayWrapperProps,

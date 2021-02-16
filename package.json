@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve",
     "test": "jest --watch",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "check:types": "tsc --noEmit --watch"
   },
   "dependencies": {
     "final-form": "^4.20.1",

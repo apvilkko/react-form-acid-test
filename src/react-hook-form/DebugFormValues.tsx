@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import { Pre } from '../shared/Pre'
+import { Pre } from '../shared/components/Pre'
 
 export const DebugFormValues: React.FC<Record<string, never>> = () => {
   const { watch } = useFormContext()
