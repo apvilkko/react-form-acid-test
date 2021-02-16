@@ -2,13 +2,17 @@ import React from 'react'
 import { Labeled } from './Labeled'
 import { Error } from './Error'
 
+export interface MultiInputChangeFn {
+  (language: string, value: string): void
+}
+
 type MultiInputProps = {
   languages: Array<string>
   name: string
   label: string
   values: Record<string, string>
   errors: Record<string, string>
-  handleChange: (language: string, value: string) => void
+  handleChange: MultiInputChangeFn
 }
 
 export const MultiInput: React.FC<MultiInputProps> = ({

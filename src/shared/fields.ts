@@ -1,4 +1,5 @@
 import { CommonOptionType, FormShape } from './types'
+import { setLanguages } from './utils'
 
 export const fields = {
   NUMBER: 'number',
@@ -15,16 +16,6 @@ export const defaultValues = {
   [fields.TAYNES]: [],
   [fields.TABLE]: [],
 }
-
-interface LangValueFn {
-  (language: string): string
-}
-
-const setLanguages = (languages: Array<string>, valueFn?: LangValueFn) =>
-  languages.reduce((acc, lang) => {
-    acc[lang] = valueFn ? valueFn(lang) : ''
-    return acc
-  }, {} as Record<string, string>)
 
 export const createNew = (languages: Array<string>) => () => ({
   id: Math.round(Math.random() * 100000 + 1),

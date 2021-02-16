@@ -1,6 +1,13 @@
 import React from 'react'
 
-export const TableRow = ({ handleRemove, children }) => {
+type TableRowProps = {
+  handleRemove: () => void
+}
+
+export const TableRow: React.FC<TableRowProps> = ({
+  handleRemove,
+  children,
+}) => {
   return (
     <tr>
       {children.map((child, i) => (

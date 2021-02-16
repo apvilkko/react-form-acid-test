@@ -1,29 +1,20 @@
-import path from 'ramda/src/path'
 import React, { useEffect } from 'react'
+import path from 'ramda/src/path'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
-import { getPathFromKey } from '../shared/utils'
+import { MultiInputChangeFn } from '../shared/MultiInput'
+import { getInputName, getPathFromKey } from '../shared/utils'
+import type { WrapperProps } from '../shared/types'
 
 const simplifyError = (obj?: Record<string, unknown>) => {
   return obj && obj.message ? obj.message : obj
 }
-
-const getInputName = (name: string, lang?: string, objForm = true) =>
-  `${name}${objForm ? '.' : '-'}${lang}`
-
-type WrapperProps<P> = {
-  name: string
-  component: React.ComponentType<P>
-  languages?: Array<string>
-  handleChange?: any
-  valueType?: string
-} & Partial<P>
 
 export function Wrapper<P>({
   name,
   component: Component,
   valueType,
   ...rest
-}: WrapperProps<P>) {
+}: WrapperProps<P>): React.ReactElement {
   const { register, control, errors, setValue, unregister } = useFormContext()
 
   const { languages } = rest
@@ -83,19 +74,6 @@ export function Wrapper<P>({
       : EMPTY_ERROR
     : simplifyError(currentError)
 
-  console.log(
-    'Wrapper',
-    name,
-    'error',
-    error,
-    'errors',
-    errors,
-    'currentError',
-    currentError,
-    'values',
-    inputValues
-  )
-
   return (
     <Controller
       control={control}
@@ -108,39 +86,40 @@ export function Wrapper<P>({
           ...rest,
         }
         if (isMultiLanguage) {
+          const handleChange: MultiInputChangeFn = (lang, value) => {
+            // setValue needs to be used to set "touched" and trigger validation
+            if (lang !== languages?.[0]) {
+              // need of setTimeout seems like a hack, maybe sequential setValues are batched?
+              setTimeout(() => {
+                setValue(
+                  getInputName(name, languages?.[0]),
+                  (inputValues || {})[languages?.[0] || ''] || '',
+                  {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                  }
+                )
+              }, 20)
+            }
+
+            console.log(
+              'Wrapper multilang setValue',
+              name,
+              lang,
+              getInputName(name, lang),
+              value
+            )
+
+            setValue(getInputName(name, lang), value, {
+              shouldValidate: true,
+              shouldDirty: true,
+            })
+          }
           innerProps = Object.assign(innerProps, {
             languages,
             name,
             values: inputValues,
-            handleChange: (lang: string, value: string) => {
-              // setValue needs to be used to set "touched" and trigger validation
-              if (lang !== languages?.[0]) {
-                // need of setTimeout seems like a hack, maybe sequential setValues are batched?
-                setTimeout(() => {
-                  setValue(
-                    getInputName(name, languages?.[0]),
-                    (inputValues || {})[languages?.[0] || ''] || '',
-                    {
-                      shouldValidate: true,
-                      shouldDirty: true,
-                    }
-                  )
-                }, 20)
-              }
-
-              console.log(
-                'Wrapper multilang setValue',
-                name,
-                lang,
-                getInputName(name, lang),
-                value
-              )
-
-              setValue(getInputName(name, lang), value, {
-                shouldValidate: true,
-                shouldDirty: true,
-              })
-            },
+            handleChange,
             errors: error,
           })
         } else {

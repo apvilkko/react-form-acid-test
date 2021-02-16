@@ -1,10 +1,10 @@
 import React from 'react'
 import Select, { OptionsType } from 'react-select'
 import { Labeled } from './Labeled'
-import type { CommonInputProps } from './types'
+import type { CommonInputProps, CommonOptionType } from './types'
 
 type ReactSelectMultiSelectProps = CommonInputProps & {
-  options: OptionsType<{}>
+  options: OptionsType<CommonOptionType>
 }
 
 export const ReactSelectMultiSelect: React.FC<ReactSelectMultiSelectProps> = ({

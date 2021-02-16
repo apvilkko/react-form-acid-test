@@ -1,25 +1,12 @@
 import React, { useCallback } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Table } from '../shared/Table'
+import {
+  FieldArrayComponentProps,
+  FieldArrayWrapperProps,
+  InnerComponentSpec,
+} from '../shared/types'
 import { Wrapper } from './Wrapper'
-
-export type InnerComponentSpec = {
-  component: React.ComponentType
-  props: Record<string, unknown>
-  name: string
-}
-
-type FieldArrayComponentProps = {
-  handleRemove: () => void
-}
-
-type FieldArrayWrapperProps<P> = {
-  innerComponents: Array<InnerComponentSpec>
-  component: React.ComponentType<P & FieldArrayComponentProps>
-  name: string
-  label: string
-  createNew: () => Record<string, unknown>
-}
 
 const NullRenderer = () => null
 
@@ -31,7 +18,7 @@ export function FieldArrayWrapper<P>({
   innerComponents,
   createNew,
   label,
-}: FieldArrayWrapperProps<P>) {
+}: FieldArrayWrapperProps<P>): React.ReactElement {
   const { watch, setValue, getValues } = useFormContext()
   const items = watch(name)
 

@@ -10,3 +10,5 @@ Requirements for our application:
 - Form is fillable in parts (tabbed sections visible one at a time)
 - Form can be remotely/programmatically submitted (not tied to submit type input button)
 - Field arrays with lots of items
+- Checkboxes with dynamic extra fields based on choice (TODO)
+- Radio button groups with dynamic extra fields based on choice (TODO)
