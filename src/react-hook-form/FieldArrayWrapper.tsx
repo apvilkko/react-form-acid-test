@@ -25,7 +25,6 @@ export function FieldArrayWrapper<P>({
   const remove = useCallback(
     (index: number) => {
       const items = getValues()[name] || []
-      console.log('remove', items)
       setValue(name, [...items.slice(0, index), ...items.slice(index + 1)], {
         shouldValidate: true,
         shouldDirty: true,
@@ -36,7 +35,6 @@ export function FieldArrayWrapper<P>({
 
   const append = useCallback(() => {
     const items = getValues()[name] || []
-    console.log('append', items)
     setValue(name, [...items, createNew()], {
       shouldValidate: true,
       shouldDirty: true,

@@ -6,7 +6,7 @@ import { FormComponent as RFFFormComponent } from './react-final-form/FormCompon
 import { FormComponent as FormikFormComponent } from './formik/FormComponent'
 import { Labeled } from './shared/Labeled'
 
-const libs = ['react-hook-form', 'react-final-form', 'formik']
+const libs = ['react-hook-form', 'react-final-form', 'formik'].sort()
 
 export const Main = () => {
   const [languages, setLanguages] = useState<Array<string>>(['en', 'es', 'fi'])

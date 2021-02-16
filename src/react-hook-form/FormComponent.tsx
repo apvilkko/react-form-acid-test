@@ -48,8 +48,6 @@ export const FormComponent: React.FC<FormComponentProps> = ({ languages }) => {
     tayneOptions,
   })
 
-  console.log('initialValues', initialValues)
-
   const methods = useForm<FormShape>({
     mode: 'onChange',
     reValidateMode: 'onChange',

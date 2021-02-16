@@ -6,8 +6,14 @@ module.exports = {
   entry: {
     index: './src/index.ts',
   },
+  target: ['web', 'es5'], // transform arrow functions in webpackBootstrap so that this works in ie
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: [path.resolve(__dirname, 'node_modules', 'react-hook-form')],
+      },
       {
         test: /\.(ts|tsx)$/,
         loader: 'babel-loader',

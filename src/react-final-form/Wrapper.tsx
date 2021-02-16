@@ -1,9 +1,9 @@
 import React from 'react'
 import pathOr from 'ramda/src/pathOr'
-import { Field, useField, useFormikContext } from 'formik'
-import { MultiInputChangeFn } from '../shared/MultiInput'
+import { Field, useField, useForm, useFormState } from 'react-final-form'
+import type { WrapperProps } from '../shared/types'
 import { getInputName, getPathFromKey, setLanguages } from '../shared/utils'
-import { WrapperProps } from '../shared/types'
+import { MultiInputChangeFn } from '../shared/MultiInput'
 
 const RegisterField: React.FC<{ name: string }> = ({ name }) => {
   useField(name)
@@ -15,26 +15,28 @@ function MultiLangWrapper<P>({
   component: Component,
   ...rest
 }: WrapperProps<P> & { languages: Array<string> }): React.ReactElement {
+  const { change } = useForm()
+  const { values, errors } = useFormState({
+    subscription: { values: true, errors: true },
+  })
+
   const { languages } = rest
-  const { values, errors, setFieldValue } = useFormikContext()
   const handleChange: MultiInputChangeFn = (lang, value) => {
     const formFieldName = getInputName(name, lang)
-    setFieldValue(formFieldName, value)
+    change(formFieldName, value)
   }
-  const props = {
+  const componentProps = {
+    ...rest,
+    name,
+    handleChange,
+    languages,
     values: setLanguages(languages, (lang) =>
       pathOr('', getPathFromKey(getInputName(name, lang)), values)
     ),
     errors: setLanguages(languages, (lang) =>
       pathOr('', getPathFromKey(getInputName(name, lang)), errors)
     ),
-    handleChange,
-    name,
   }
-  const componentProps = ({
-    ...rest,
-    ...props,
-  } as unknown) as P
   return (
     <>
       {languages.map((lang) => {
@@ -54,42 +56,38 @@ export function Wrapper<P>({
 }: WrapperProps<P>): React.ReactElement {
   const { languages } = rest
 
-  const { setFieldValue } = useFormikContext()
-
   if (languages && languages.length) {
     return <MultiLangWrapper name={name} component={Component} {...rest} />
   }
 
   return (
     <Field name={name}>
-      {({ field, meta }) => {
+      {({ input, meta }) => {
+        // Fields are "touched" after blur, and touched state is reset when switching tabs
         const error = meta.touched ? meta.error : undefined
         let props = {
           ...rest,
           error,
         }
-
         if (valueType === 'array') {
           const handleChange = (val: unknown) => {
-            setFieldValue(name, val)
+            input.onChange(val)
           }
           props = Object.assign({}, props, {
             input: {
               name,
               id: name,
-              value: field.value,
-              onChange: handleChange,
+              value: input.value,
+              onChange: input.onChange,
             },
-            value: field.value,
+            value: input.value,
             handleChange,
           })
         } else {
           props = Object.assign({}, props, {
-            input: field,
+            input,
           })
         }
-
-        // N.B. touched (for field) is set to true on blur, not immediately on change
         return <Component {...props} />
       }}
     </Field>

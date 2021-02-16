@@ -1,10 +1,9 @@
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
+import { useFormState } from 'react-final-form'
 import { Pre } from '../shared/Pre'
 
 export const DebugFormValues: React.FC<Record<string, never>> = () => {
-  const { watch } = useFormContext()
-  const values = watch()
+  const { values } = useFormState({ subscription: { values: true } })
 
   return <Pre data={values} label="Internal form data" />
 }
