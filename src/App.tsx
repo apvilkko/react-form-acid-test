@@ -5,7 +5,9 @@ import { Main } from './Main'
 export const App: React.FC<Record<string, never>> = () => {
   return (
     <HashRouter basename="/">
-      <Main />
+      <div className="container">
+        <Main />
+      </div>
     </HashRouter>
   )
 }

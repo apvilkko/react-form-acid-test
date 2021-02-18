@@ -11,7 +11,7 @@ const libs = ['react-hook-form', 'react-final-form', 'formik'].sort()
 export const Main: React.FC<Record<string, never>> = () => {
   const [languages, setLanguages] = useState<Array<string>>(['en', 'es', 'fi'])
   return (
-    <>
+    <div>
       <h1>React Form Acid Test</h1>
       <p>Comparison of React form libraries.</p>
 
@@ -31,7 +31,7 @@ export const Main: React.FC<Record<string, never>> = () => {
       </div>
 
       <h2>Navigation</h2>
-      <ul>
+      <ul className="nav">
         {libs.map((lib) => (
           <li key={lib}>
             <Link to={`/${lib}`}>{lib}</Link>
@@ -53,6 +53,6 @@ export const Main: React.FC<Record<string, never>> = () => {
         />
       </Switch>
       <footer>Footer stuff</footer>
-    </>
+    </div>
   )
 }

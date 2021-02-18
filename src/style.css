@@ -18,6 +18,10 @@ button {
   margin-bottom: 1rem;
 }
 
+fieldset {
+  margin-bottom: 1rem;
+}
+
 input[type='text'] {
   padding: 0.3rem;
 }
@@ -60,6 +64,8 @@ footer {
   display: inline-flex;
   justify-content: space-between;
   margin-bottom: 1rem;
+  padding-top: 0.5rem;
+  border-top: 2px solid #ccc;
 }
 
 .navigation > * {
@@ -68,4 +74,33 @@ footer {
 
 .array-wrapper {
   margin-bottom: 1rem;
+}
+
+.checkbox.disabled label {
+  opacity: 0.7;
+}
+
+.nav {
+  margin: 0;
+  padding: 0;
+  display: inline-flex;
+}
+
+.nav li {
+  list-style-type: none;
+  margin-right: 1rem;
+}
+
+form {
+  margin-bottom: 3rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+fieldset.plain {
+  border: 0;
 }

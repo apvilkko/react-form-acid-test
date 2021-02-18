@@ -3,7 +3,7 @@ import path from 'ramda/src/path'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { MultiInputChangeFn } from '../shared/inputs/MultiInput'
 import { getInputName, getPathFromKey } from '../shared/utils'
-import type { WrapperProps } from '../shared/types'
+import type { CheckboxesWrapperProps, WrapperProps } from '../shared/types'
 
 const simplifyError = (obj?: Record<string, unknown>) => {
   return obj && obj.message ? obj.message : obj
@@ -98,6 +98,50 @@ function MultiLangWrapper<P>({
   )
 }
 
+function CheckboxesWrapper<P>({
+  name,
+  component: Component,
+  checkboxes,
+  context,
+  ...rest
+}: CheckboxesWrapperProps<P>) {
+  const { control, setValue } = useFormContext()
+  const watch = useWatch({ control, name })
+  const isCheckbox = rest.type === 'checkbox'
+  const inputs = checkboxes.map(
+    ({ name: checkboxName, disabled: isDisabled }) => {
+      const id = `${name}.${checkboxName}`
+      const disabled = isDisabled ? isDisabled(watch) : false
+      const contextName = `${name}.${context}`
+      const props = {
+        name: isCheckbox ? id : contextName,
+        id: isCheckbox ? id : `${contextName}.${checkboxName}`,
+        onChange: (evt: React.ChangeEvent<HTMLInputElement>) => {
+          if (isCheckbox) {
+            setValue(id, evt.target.checked)
+          } else {
+            setValue(contextName, evt.target.value)
+          }
+        },
+        label: checkboxName,
+        value: checkboxName,
+        checked: isCheckbox
+          ? !!watch[checkboxName]
+          : watch[context] === checkboxName,
+        disabled,
+      }
+      return props
+    }
+  )
+
+  const componentProps = {
+    inputs,
+    ...rest,
+  }
+
+  return <Component {...componentProps} />
+}
+
 export function Wrapper<P>({
   name,
   component: Component,
@@ -110,6 +154,11 @@ export function Wrapper<P>({
 
   if (languages && languages.length) {
     return <MultiLangWrapper name={name} component={Component} {...rest} />
+  }
+
+  const { checkboxes } = rest
+  if (typeof checkboxes !== 'undefined') {
+    return <CheckboxesWrapper name={name} component={Component} {...rest} />
   }
 
   const currentError: Record<string, unknown> | undefined = path(

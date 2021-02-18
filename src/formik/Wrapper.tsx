@@ -3,7 +3,7 @@ import pathOr from 'ramda/src/pathOr'
 import { Field, useField, useFormikContext } from 'formik'
 import { MultiInputChangeFn } from '../shared/inputs/MultiInput'
 import { getInputName, getPathFromKey, setLanguages } from '../shared/utils'
-import { WrapperProps } from '../shared/types'
+import { CheckboxesWrapperProps, WrapperProps } from '../shared/types'
 
 const RegisterField: React.FC<{ name: string }> = ({ name }) => {
   useField(name)
@@ -46,6 +46,45 @@ function MultiLangWrapper<P>({
   )
 }
 
+function CheckboxesWrapper<P>({
+  name,
+  component: Component,
+  checkboxes,
+  context,
+  ...rest
+}: CheckboxesWrapperProps<P>) {
+  const { values, setFieldValue } = useFormikContext()
+  const isCheckbox = rest.type === 'checkbox'
+  const groupValues = values[name]
+  const inputs = checkboxes.map(
+    ({ name: checkboxName, disabled: isDisabled }) => {
+      const id = `${name}.${checkboxName}`
+      const disabled = isDisabled ? isDisabled(groupValues) : false
+      const contextName = `${name}.${context}`
+      const props = {
+        name: isCheckbox ? id : contextName,
+        id: isCheckbox ? id : `${contextName}.${checkboxName}`,
+        onChange: (evt: React.ChangeEvent<HTMLInputElement>) => {
+          if (isCheckbox) {
+            setFieldValue(id, evt.target.checked)
+          } else {
+            setFieldValue(contextName, evt.target.value)
+          }
+        },
+        label: checkboxName,
+        value: checkboxName,
+        checked: isCheckbox
+          ? !!groupValues[checkboxName]
+          : groupValues[context] === checkboxName,
+        disabled,
+      }
+      return props
+    }
+  )
+  const componentProps = { ...rest, inputs }
+  return <Component {...componentProps} />
+}
+
 export function Wrapper<P>({
   name,
   component: Component,
@@ -58,6 +97,11 @@ export function Wrapper<P>({
 
   if (languages && languages.length) {
     return <MultiLangWrapper name={name} component={Component} {...rest} />
+  }
+
+  const { checkboxes } = rest
+  if (typeof checkboxes !== 'undefined') {
+    return <CheckboxesWrapper name={name} component={Component} {...rest} />
   }
 
   return (

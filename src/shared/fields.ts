@@ -7,6 +7,8 @@ export const fields = {
   TAGS: 'tags',
   TAYNES: 'taynes',
   TABLE: 'table',
+  ACTIVE: 'active',
+  OPTIONS: 'options',
 }
 
 export const createNew = (languages: Array<string>) => (): Record<
@@ -37,6 +39,8 @@ export const initialValues = (languages: Array<string>): BackendShape => ({
   [fields.TAGS]: ['Beta'],
   [fields.TAYNES]: ['Tayne3', 'Tayne4'],
   [fields.TABLE]: [createItem(languages)(4), createItem(languages)(5)],
+  [fields.ACTIVE]: { Oyster: true },
+  [fields.OPTIONS]: { Oyster: 'smiling' },
 })
 
 const getOptions = (
